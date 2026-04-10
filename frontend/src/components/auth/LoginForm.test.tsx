@@ -75,7 +75,6 @@ describe('LoginForm', () => {
     renderLoginForm();
     const passwordInput = screen.getByLabelText(/password/i);
     expect(passwordInput).toHaveAttribute('type', 'password');
-    const toggleButton = screen.getByRole('button', { name: '' });
     // Find the visibility toggle (the icon button inside the password field)
     const toggleButtons = screen.getAllByRole('button');
     const visToggle = toggleButtons.find(b => b !== screen.getByRole('button', { name: /sign in/i }));

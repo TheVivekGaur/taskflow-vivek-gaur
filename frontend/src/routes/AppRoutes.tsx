@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
-import React, { Suspense, lazy } from 'react';
+import { Suspense, lazy } from 'react';
 import Loader from '../components/common/Loader';
 
 const LoginPage = lazy(() => import('../pages/LoginPage'));
