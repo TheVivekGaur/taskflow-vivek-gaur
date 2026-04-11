@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
 import { authApi } from '../api/auth.api';
 import type { User } from '../types';
 
@@ -15,26 +15,18 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Restore session on mount
-  useEffect(() => {
-    const savedToken = localStorage.getItem('taskflow_token');
-    const savedUser = localStorage.getItem('taskflow_user');
-
-    if (savedToken && savedUser) {
-      try {
-        setToken(savedToken);
-        setUser(JSON.parse(savedUser));
-      } catch {
-        localStorage.removeItem('taskflow_token');
-        localStorage.removeItem('taskflow_user');
-      }
+  const [user, setUser] = useState<User | null>(() => {
+    try {
+      const saved = localStorage.getItem('taskflow_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
     }
-    setIsLoading(false);
-  }, []);
+  });
+  const [token, setToken] = useState<string | null>(() => {
+    return localStorage.getItem('taskflow_token');
+  });
+  const [isLoading] = useState(false);
 
   const login = useCallback(async (email: string, password: string) => {
     const response = await authApi.login(email, password);
@@ -76,6 +68,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth(): AuthContextType {
   const context = useContext(AuthContext);
   if (context === undefined) {

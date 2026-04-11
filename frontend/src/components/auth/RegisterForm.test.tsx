@@ -83,7 +83,9 @@ describe('RegisterForm', () => {
       data: { error: 'Email already exists' },
       statusText: 'Bad Request',
       headers: {},
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       config: { headers: {} as any },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
     mockRegister.mockRejectedValue(err);
     renderForm();

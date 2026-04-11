@@ -61,7 +61,9 @@ describe('LoginForm', () => {
       data: { error: 'Invalid credentials' },
       statusText: 'Unauthorized',
       headers: {},
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       config: { headers: {} as any },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
     mockLogin.mockRejectedValue(err);
     renderLoginForm();

@@ -4,8 +4,8 @@ import { seedUsers, seedProjects, seedTasks } from './data';
 import type { User, Project, Task, TaskStatus, TaskPriority } from '../types';
 
 // In-memory data store
-let users: (User & { password: string })[] = [...seedUsers];
-let projects: Project[] = [...seedProjects];
+const users: (User & { password: string })[] = [...seedUsers];
+const projects: Project[] = [...seedProjects];
 let tasks: Task[] = [...seedTasks];
 
 // Simple JWT-like token helpers

@@ -14,25 +14,26 @@ describe('apiClient', () => {
   it('attaches token from localStorage to requests', async () => {
     localStorage.setItem('taskflow_token', 'test-jwt-token');
 
-    // Access the request interceptor by making a mock config
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const interceptors = apiClient.interceptors.request as any;
     const handlers = interceptors.handlers;
     const fulfilled = handlers[0]?.fulfilled;
 
     if (fulfilled) {
-      const config = { headers: {} as any };
+      const config = { headers: {} as Record<string, string> };
       const result = await fulfilled(config);
       expect(result.headers.Authorization).toBe('Bearer test-jwt-token');
     }
   });
 
   it('does not attach token when not in localStorage', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const interceptors = apiClient.interceptors.request as any;
     const handlers = interceptors.handlers;
     const fulfilled = handlers[0]?.fulfilled;
 
     if (fulfilled) {
-      const config = { headers: {} as any };
+      const config = { headers: {} as Record<string, string> };
       const result = await fulfilled(config);
       expect(result.headers.Authorization).toBeUndefined();
     }
@@ -42,12 +43,12 @@ describe('apiClient', () => {
     localStorage.setItem('taskflow_token', 'tok');
     localStorage.setItem('taskflow_user', '{}');
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const interceptors = apiClient.interceptors.response as any;
     const handlers = interceptors.handlers;
     const rejected = handlers[0]?.rejected;
 
     if (rejected) {
-      // Mock window.location
       const originalLocation = window.location;
       Object.defineProperty(window, 'location', {
         value: { ...originalLocation, pathname: '/projects', href: '' },
